@@ -49,4 +49,9 @@ I would like to seperate payments from selection, but was unable to due to scann
     it would throw a NoSuchElementException, combining the pay method into the selection method resolved
     this issue but doesnt allow me to make seperate modules for these processes
 
+    Potential work arounds: 
+        1. declare scanner object at class level
+        2. pass in scanner object as arguement
+        3. only close scanner at the very end of the program
+
 Till Class has not been used yet
