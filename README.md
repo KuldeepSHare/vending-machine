@@ -55,3 +55,8 @@ I would like to seperate payments from selection, but was unable to due to scann
         3. only close scanner at the very end of the program
 
 Till Class has not been used yet
+
+## bug in selection
+    when entering a product number outside the acceptable range, program does next iteration of do-while 
+    but a second time of entering invalid input causes the program to end.
+    

@@ -37,16 +37,33 @@ public class App {
         
         // Asks for Product Choice
         try {
-            boolean b = true; // if input is valid, b = false, ends loop
+            boolean b = false; // if input is valid, b = false, ends loop
             do {
-                b = false;
+                b = true;
                 num = scanner.nextInt() -1;
                 System.out.println("You chose " + prod[num].getName() + " which costs $" 
                 + String.format("%.2f", prod[num].getPrice()) + ".");
 
+                if((num > 0) && (num < prod.length)) {
+                    if (prod[num].getAmount() < 1) {
+                        System.out.println("Unfortunately we are out of this product, please choose another. To exit program enter 99");
+                        b = true;
+                    } else {
+                        pay(num);
+                        b = false;
+                    }
+                } else if(num == 99) {
+                    System.out.println("You have chosen to end Vending Machine Program.");
+                    break;
+                } else {
+                    System.out.println("Please enter a value between 1 and " + prod.length + " or 99 to exit program");
+                    b = true;
+                }
+
+                /* 
                 if (prod[num].getAmount() < 1) {
                     System.out.println("Unfortunately we are out of this product, please choose another. To exit program enter 99");
-                    b = false;
+                    b = true;
                 }
                 else if(num == 99) {
                     System.out.println("You have chosen to end Vending Machine Program.");
@@ -54,11 +71,13 @@ public class App {
                 }
                 else if(num > prod.length) {
                     System.out.println("Please enter a value between 1 and " + prod.length + " or 99 to exit program");
-                    b = false;
+                    b = true;
                 }
                 else {
                     pay(num);
+                    b = false;
                 }
+                */
 
             } while(b); 
                      
@@ -71,7 +90,7 @@ public class App {
 
 
         } catch (Exception e) {
-            System.out.println("Invalid Selection. Please enter a valid integer from 1 through " 
+            System.out.println("Exception: Invalid Selection. Please enter a valid integer from 1 through " 
                 + (prod.length+1) + ".");
         }
 
@@ -96,6 +115,8 @@ public class App {
             System.out.println("Invalid Payment. Please enter an amount in dollars and cents.");
         }
 
+        // placeholder
+        System.out.println("@@@@@@Calculate change and deliver product here.");
     }
 
 }

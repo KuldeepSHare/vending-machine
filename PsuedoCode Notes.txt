@@ -1,0 +1,8 @@
+Vending Machine thoughts
+	App.java
+		static void selection()
+			I need to take the if else statements and nest them :
+				outer if (check whether the input is valid)
+					inner if (check if product is in stock)
+					
+			
