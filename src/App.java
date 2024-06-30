@@ -16,11 +16,11 @@ public class App {
         System.out.println("We have the Following Products Available:");
 
         Product[] prod = {
-                new Product("Doritos", 1.75, 10),
-                new Product("Snickers", 2.00, 10),
-                new Product("Nuka Cola", 1.50, 10),
-                new Product("Poland Spring", 1.00, 10),
-                new Product("Stims", 2.50, 10),
+            new Product("Doritos", 1.75, 10),
+            new Product("Snickers", 2.00, 10),
+            new Product("Nuka Cola", 1.50, 10),
+            new Product("Poland Spring", 1.00, 10),
+            new Product("Stims", 2.50, 10),
         };
 
         for (int i = 0; i < prod.length; i++) {
@@ -34,68 +34,41 @@ public class App {
         System.out.println("Which item would you like?");
         Scanner scanner = new Scanner(System.in);
         int num;
+        boolean validInput = false;
         
         // Asks for Product Choice
-        try {
-            boolean b = false; // if input is valid, b = false, ends loop
-            do {
-                b = true;
+        while(!validInput) {
+        
+            try {
+                
                 num = scanner.nextInt() -1;
-                System.out.println("You chose " + prod[num].getName() + " which costs $" 
-                + String.format("%.2f", prod[num].getPrice()) + ".");
+                if(num == 98) {
+                    System.out.println("You have chosen to end Vending Machine Program.");
+                    break;
+                } else if((num >= 0) && (num < prod.length)) {
 
-                if((num > 0) && (num < prod.length)) {
+                    System.out.println("You chose " + prod[num].getName() + " which costs $" 
+                        + String.format("%.2f", prod[num].getPrice()) + ".");
+
                     if (prod[num].getAmount() < 1) {
                         System.out.println("Unfortunately we are out of this product, please choose another. To exit program enter 99");
-                        b = true;
+                        
                     } else {
                         pay(num);
-                        b = false;
+                        validInput = true;                        
                     }
-                } else if(num == 99) {
-                    System.out.println("You have chosen to end Vending Machine Program.");
-                    break;
                 } else {
                     System.out.println("Please enter a value between 1 and " + prod.length + " or 99 to exit program");
-                    b = true;
-                }
-
-                /* 
-                if (prod[num].getAmount() < 1) {
-                    System.out.println("Unfortunately we are out of this product, please choose another. To exit program enter 99");
-                    b = true;
-                }
-                else if(num == 99) {
-                    System.out.println("You have chosen to end Vending Machine Program.");
-                    break;
-                }
-                else if(num > prod.length) {
-                    System.out.println("Please enter a value between 1 and " + prod.length + " or 99 to exit program");
-                    b = true;
-                }
-                else {
-                    pay(num);
-                    b = false;
-                }
-                */
-
-            } while(b); 
-                     
-            
-
-            /* I need to check if chosen product is available, if not, then ask the user for another choice
-                Check README ## Notes for additional info
-            
-            */ 
+                } 
 
 
-        } catch (Exception e) {
-            System.out.println("Exception: Invalid Selection. Please enter a valid integer from 1 through " 
-                + (prod.length+1) + ".");
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Exception: Invalid Selection. Please enter a valid integer from 1 through " 
+                    + (prod.length+1) + ".");
         }
 
-
-        //scanner.close();             
+    }
+        scanner.close();             
     }
 
     public static void pay(int choice) {
@@ -118,5 +91,74 @@ public class App {
         // placeholder
         System.out.println("@@@@@@Calculate change and deliver product here.");
     }
+
+
+    /**
+     * returns change in denominations of $10, $5, $1, 25cents, 10cents, 5cents, 1cent
+     * @param cost
+     * @param payment
+     */
+    public static void getChange(double cost, double payment) {
+        // $20 bills $10 bills, $5 bills, %1 bills, 25c, 10c, 5c, 1c
+
+        //Denominations[] denom = new Denominations[8];
+
+        Integer denominations[] = {0, 0, 0, 0, 0, 0, 0, 0};
+       
+        final double bill_20 = 20.0;
+        final double bill_10 = 10.0;
+        final double bill_5 = 5.0;
+        final double bill_1 = 1.0;
+        final double quarter = 0.25;
+        final double dime = 0.10;
+        final double nickel = 0.05;
+        final double penny = 0.01;
+
+        double changeAmount = cost - payment;
+
+        while(changeAmount >= bill_20){
+            changeAmount /= bill_20;
+            denominations[0]++;
+        }
+
+        while(changeAmount >= bill_10){
+            changeAmount /= bill_10;
+            denominations[1]++;
+        }
+
+        while(changeAmount >= bill_5){
+            changeAmount /= bill_5;
+            denominations[2]++;
+        }
+
+        while(changeAmount >= bill_1){
+            changeAmount /= bill_1;
+            denominations[3]++;
+        }
+
+        while(changeAmount >= quarter){
+            changeAmount /= quarter;
+            denominations[4]++;
+        }
+
+        while(changeAmount >= dime){
+            changeAmount /= dime;
+            denominations[5]++;
+        }
+
+        while(changeAmount >= nickel){
+            changeAmount /= nickel;
+            denominations[6]++;
+        }
+
+        while(changeAmount >= penny){
+            changeAmount /= penny;
+            denominations[7]++;
+        }
+
+        // either return an array or print the change here
+
+    }
+
 
 }

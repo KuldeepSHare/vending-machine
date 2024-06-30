@@ -1,8 +1,8 @@
 public class Product {
 
-    String name;
-    double price;
-    int amount;
+    private String name;
+    private double price;
+    private int amount;
 
     /* Constructor */
     public Product(String n, double p, int a){
