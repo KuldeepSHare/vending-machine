@@ -60,3 +60,26 @@ Till Class has not been used yet
     when entering a product number outside the acceptable range, program does next iteration of do-while 
     but a second time of entering invalid input causes the program to end.
     
+
+
+
+## Re-thinking the problem
+    getChange(): 
+        receives 
+            total cash provided
+            total cost
+        returns: 
+            amount of change in the fewest of each denomination of dollar bills and coins
+
+        to do this we will set changeAmount = totalCash - totalCost
+            
+            As long as changeAmount >= 20Bill
+                increment tally20Bill
+                decrement the changeAmount by the value of denomination in question (here its 20Bill)
+            repeat this for every denomination of dollar bills and coins using the same changeAmount subsequent denomination tallies 
+            
+        return talley of each denomination, you could do this in an array
+    
+
+
+## GUI with JavaFX
