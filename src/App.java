@@ -102,76 +102,34 @@ public class App {
      * @param payment
      */
     public static void getChange(double cost, double payment) {
-        // $20 bills, $10 bills, $5 bills, $1 bills, 25c, 10c, 5c, 1c
-        Integer denominations[] = {0, 0, 0, 0, 0, 0, 0, 0};
-        
-        final int bill_20 = 2000;
-        final int bill_10 = 1000;
-        final int bill_5 = 500;
-        final int bill_1 = 100;
-        final int quarter = 25;
-        final int dime = 10;
-        final int nickel = 5;
-        final int penny = 1;
+        // Create an array of Denominations objects
+        Denominations[] denominations = {
+            new Denominations(20.00, "$20 bills"),
+            new Denominations(10.00, "$10 bills"),
+            new Denominations(5.00, "$5 bills"),
+            new Denominations(1.00, "$1 bills"),
+            new Denominations(0.25, "Quarters"),
+            new Denominations(0.10, "Dimes"),
+            new Denominations(0.05, "Nickels"),
+            new Denominations(0.01, "Pennies")
+        };
     
         double changeAmount = payment - cost;
-        String changeInDenominations = "Your Change is: $" + String.format("%.2f", changeAmount);
+        String changeInDenominations = "Your Change is: $" + String.format("%.2f", changeAmount) + "\nBreakdown:\n";
     
         int changeInCents = (int) Math.round(changeAmount * 100);
     
-        while (changeInCents >= bill_20) {
-            changeInCents -= bill_20;
-            denominations[0]++;
-        }
-    
-        while (changeInCents >= bill_10) {
-            changeInCents -= bill_10;
-            denominations[1]++;
-        }
-    
-        while (changeInCents >= bill_5) {
-            changeInCents -= bill_5;
-            denominations[2]++;
-        }
-    
-        while (changeInCents >= bill_1) {
-            changeInCents -= bill_1;
-            denominations[3]++;
-        }
-    
-        while (changeInCents >= quarter) {
-            changeInCents -= quarter;
-            denominations[4]++;
-        }
-    
-        while (changeInCents >= dime) {
-            changeInCents -= dime;
-            denominations[5]++;
-        }
-    
-        while (changeInCents >= nickel) {
-            changeInCents -= nickel;
-            denominations[6]++;
-        }
-    
-        while (changeInCents >= penny) {
-            changeInCents -= penny;
-            denominations[7]++;
+        for (Denominations denom : denominations) {
+            int denomInCents = (int) Math.round(denom.getValue() * 100);
+            while (changeInCents >= denomInCents) {
+                changeInCents -= denomInCents;
+                denom.incrementAmount();
+            }
+            changeInDenominations += denom.getName() + ": " + denom.getAmount() + "\n";
         }
     
         // Print the change in denominations
-
-
         System.out.println(changeInDenominations);
-        System.out.println("Breakdown:");
-        System.out.println("$20 bills: " + denominations[0]);
-        System.out.println("$10 bills: " + denominations[1]);
-        System.out.println("$5 bills: " + denominations[2]);
-        System.out.println("$1 bills: " + denominations[3]);
-        System.out.println("Quarters: " + denominations[4]);
-        System.out.println("Dimes: " + denominations[5]);
-        System.out.println("Nickels: " + denominations[6]);
-        System.out.println("Pennies: " + denominations[7]);
     }
     
 }

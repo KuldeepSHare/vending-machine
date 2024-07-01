@@ -39,4 +39,7 @@ public class Denominations {
         name = n;
     }
 
+    public void incrementAmount() {
+        this.amount++;
+    }
 }
