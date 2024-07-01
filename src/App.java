@@ -125,7 +125,9 @@ public class App {
                 changeInCents -= denomInCents;
                 denom.incrementAmount();
             }
-            changeInDenominations += denom.getName() + ": " + denom.getAmount() + "\n";
+            if(denom.getAmount() > 0){
+                changeInDenominations += denom.getName() + ": " + denom.getAmount() + "\n";
+            }
         }
     
         // Print the change in denominations
