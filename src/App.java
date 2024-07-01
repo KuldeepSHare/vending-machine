@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 /**
  * This a basic vending machine controlled via terminal and providing change
- * without denominations
+ * with denominations
  * 
  * @author Kuldeep Singh Hare
  * @version 1.0
@@ -26,13 +26,15 @@ public class App {
         for (int i = 0; i < prod.length; i++) {
             System.out.println(i + 1 + ". " + prod[i].showProduct());
         }
-        selection(prod);
-
+        Scanner scanner = new Scanner(System.in);
+        selection(prod, scanner);
+        scanner.close(); 
+        System.out.println("Thank You for shopping at Kuldeep's Vending Machine and have a nice day.");
     }
 
-    public static void selection(Product[] prod) {
+    public static void selection(Product[] prod, Scanner scanner) {
         System.out.println("Which item would you like?");
-        Scanner scanner = new Scanner(System.in);
+        
         int num;
         boolean validInput = false;
         
@@ -54,7 +56,7 @@ public class App {
                         System.out.println("Unfortunately we are out of this product, please choose another. To exit program enter 99");
                         
                     } else {
-                        pay(num);
+                        pay(prod[num].getPrice(), scanner);
                         validInput = true;                        
                     }
                 } else {
@@ -68,28 +70,29 @@ public class App {
         }
 
     }
-        scanner.close();             
+                    
     }
 
-    public static void pay(int choice) {
+    public static void pay(double cost, Scanner scanner) {
 
         System.out.println("Enter your payment amount.");
         double payment;
-        Scanner scanner = new Scanner(System.in);
-        // Till t = new Till();
-
+        
         // checks if we have the product, whether payment is sufficient, and required
         // change is available
         try {
             payment = scanner.nextDouble();
-            System.out.println("You paid: " + Double.toString(payment));
+            while(payment < cost) {
+                System.out.println("Payment is insufficient, please provide additional funds.");
+                payment += scanner.nextDouble();
+            }
+            System.out.println("You provided: " + Double.toString(payment));
+            getChange(cost, payment);
 
         } catch (NumberFormatException e) {
             System.out.println("Invalid Payment. Please enter an amount in dollars and cents.");
         }
-
-        // placeholder
-        System.out.println("@@@@@@Calculate change and deliver product here.");
+        
     }
 
 
@@ -99,66 +102,76 @@ public class App {
      * @param payment
      */
     public static void getChange(double cost, double payment) {
-        // $20 bills $10 bills, $5 bills, %1 bills, 25c, 10c, 5c, 1c
-
-        //Denominations[] denom = new Denominations[8];
-
+        // $20 bills, $10 bills, $5 bills, $1 bills, 25c, 10c, 5c, 1c
         Integer denominations[] = {0, 0, 0, 0, 0, 0, 0, 0};
-       
-        final double bill_20 = 20.0;
-        final double bill_10 = 10.0;
-        final double bill_5 = 5.0;
-        final double bill_1 = 1.0;
-        final double quarter = 0.25;
-        final double dime = 0.10;
-        final double nickel = 0.05;
-        final double penny = 0.01;
-
-        double changeAmount = cost - payment;
-
-        while(changeAmount >= bill_20){
-            changeAmount /= bill_20;
+        
+        final int bill_20 = 2000;
+        final int bill_10 = 1000;
+        final int bill_5 = 500;
+        final int bill_1 = 100;
+        final int quarter = 25;
+        final int dime = 10;
+        final int nickel = 5;
+        final int penny = 1;
+    
+        double changeAmount = payment - cost;
+        String changeInDenominations = "Your Change is: $" + String.format("%.2f", changeAmount);
+    
+        int changeInCents = (int) Math.round(changeAmount * 100);
+    
+        while (changeInCents >= bill_20) {
+            changeInCents -= bill_20;
             denominations[0]++;
         }
-
-        while(changeAmount >= bill_10){
-            changeAmount /= bill_10;
+    
+        while (changeInCents >= bill_10) {
+            changeInCents -= bill_10;
             denominations[1]++;
         }
-
-        while(changeAmount >= bill_5){
-            changeAmount /= bill_5;
+    
+        while (changeInCents >= bill_5) {
+            changeInCents -= bill_5;
             denominations[2]++;
         }
-
-        while(changeAmount >= bill_1){
-            changeAmount /= bill_1;
+    
+        while (changeInCents >= bill_1) {
+            changeInCents -= bill_1;
             denominations[3]++;
         }
-
-        while(changeAmount >= quarter){
-            changeAmount /= quarter;
+    
+        while (changeInCents >= quarter) {
+            changeInCents -= quarter;
             denominations[4]++;
         }
-
-        while(changeAmount >= dime){
-            changeAmount /= dime;
+    
+        while (changeInCents >= dime) {
+            changeInCents -= dime;
             denominations[5]++;
         }
-
-        while(changeAmount >= nickel){
-            changeAmount /= nickel;
+    
+        while (changeInCents >= nickel) {
+            changeInCents -= nickel;
             denominations[6]++;
         }
-
-        while(changeAmount >= penny){
-            changeAmount /= penny;
+    
+        while (changeInCents >= penny) {
+            changeInCents -= penny;
             denominations[7]++;
         }
+    
+        // Print the change in denominations
 
-        // either return an array or print the change here
 
+        System.out.println(changeInDenominations);
+        System.out.println("Breakdown:");
+        System.out.println("$20 bills: " + denominations[0]);
+        System.out.println("$10 bills: " + denominations[1]);
+        System.out.println("$5 bills: " + denominations[2]);
+        System.out.println("$1 bills: " + denominations[3]);
+        System.out.println("Quarters: " + denominations[4]);
+        System.out.println("Dimes: " + denominations[5]);
+        System.out.println("Nickels: " + denominations[6]);
+        System.out.println("Pennies: " + denominations[7]);
     }
-
-
+    
 }
