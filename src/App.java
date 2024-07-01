@@ -39,11 +39,11 @@ public class App {
         boolean validInput = false;
         
         // Asks for Product Choice
-        while(!validInput) {
-        
+        while(!validInput) {        
             try {
-                
+
                 num = scanner.nextInt() -1;
+
                 if(num == 98) {
                     System.out.println("You have chosen to end Vending Machine Program.");
                     break;
@@ -67,7 +67,8 @@ public class App {
             } catch (java.util.InputMismatchException e) {
                 System.out.println("Exception: Invalid Selection. Please enter a valid integer from 1 through " 
                     + (prod.length+1) + ".");
-        }
+                scanner.nextLine();
+            }
 
     }
                     
@@ -80,19 +81,28 @@ public class App {
         
         // checks if we have the product, whether payment is sufficient, and required
         // change is available
-        try {
-            payment = scanner.nextDouble();
-            while(payment < cost) {
-                System.out.println("Payment is insufficient, please provide additional funds.");
-                payment += scanner.nextDouble();
-            }
-            System.out.println("You provided: " + Double.toString(payment));
-            getChange(cost, payment);
 
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid Payment. Please enter an amount in dollars and cents.");
-        }
+        boolean validInput = false;
         
+        // Asks for Product Choice
+        while(!validInput) { 
+            try {
+                payment = scanner.nextDouble();
+                validInput = true;
+                while(payment < cost) {
+                    System.out.println("Payment is insufficient, please provide additional funds.");
+                    payment += scanner.nextDouble();
+                }
+                System.out.println("You provided: " + Double.toString(payment));
+                getChange(cost, payment);
+
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid Payment. Please enter an amount in dollars and cents.");
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Exception: Invalid Selection. Please enter an amount in Dollars and Cents");
+                scanner.nextLine();
+            }
+        }
     }
 
 
